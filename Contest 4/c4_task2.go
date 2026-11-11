@@ -9,22 +9,7 @@ import (
 
 const INF = math.MaxInt
 
-func main() {
-	in := bufio.NewReader(os.Stdin)
-
-	var n, s, f int
-	fmt.Fscan(in, &n, &s, &f)
-
-	matrix := make([][]int, n+1)
-
-	for i := 1; i <= n; i++ {
-		matrix[i] = make([]int, n+1)
-
-		for j := 1; j <= n; j++ {
-			fmt.Fscan(in, &matrix[i][j])
-		}
-	}
-
+func dijkstra(n int, s int, f int, matrix [][]int) int {
 	visited := make([]bool, n+1)
 	dist := make([]int, n+1)
 
@@ -63,10 +48,29 @@ func main() {
 			}
 		}
 	}
+	return dist[f]
+}
 
-	if dist[f] == INF {
+func main() {
+	in := bufio.NewReader(os.Stdin)
+
+	var n, s, f int
+	fmt.Fscan(in, &n, &s, &f)
+
+	matrix := make([][]int, n+1)
+
+	for i := 1; i <= n; i++ {
+		matrix[i] = make([]int, n+1)
+
+		for j := 1; j <= n; j++ {
+			fmt.Fscan(in, &matrix[i][j])
+		}
+	}
+
+	minDistance := dijkstra(n, s, f, matrix)
+	if minDistance == INF {
 		fmt.Print(-1)
 	} else {
-		fmt.Print(dist[f])
+		fmt.Print(minDistance)
 	}
 }
