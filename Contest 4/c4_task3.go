@@ -54,16 +54,11 @@ func dijkstraParentList(matrix [][]int, n int, s int) []int {
 	return parents
 }
 
-func makeOrder(parents []int, s int, f int) []int {
+func makeOrder(parents []int, f int) []int {
 	var order []int
 	order = append(order, f)
 	pointer := parents[f]
-	for i := 0; i < len(parents); i++ {
-		if parents[pointer] == 0 {
-			order = append(order, s)
-			break
-		}
-
+	for pointer != 0 {
 		order = append(order, pointer)
 		pointer = parents[pointer]
 	}
@@ -75,6 +70,12 @@ func main() {
 
 	var n, s, f int
 	fmt.Fscan(in, &n, &s, &f)
+
+	// Если s совпадает с f, то расстояние равна 0
+	if s == f {
+		fmt.Print(s)
+		return
+	}
 
 	matrix := make([][]int, n+1)
 
@@ -93,7 +94,7 @@ func main() {
 		return
 	}
 
-	order := makeOrder(parents, s, f)
+	order := makeOrder(parents, f)
 
 	for i := len(order) - 1; i >= 0; i-- {
 		fmt.Print(order[i], " ")
