@@ -4,7 +4,12 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"slices"
 )
+
+func dfs() {
+
+}
 
 func main() {
 	in := bufio.NewReader(os.Stdin)
@@ -15,8 +20,11 @@ func main() {
 	for i := 0; i < m; i++ {
 		var from, to int
 		fmt.Fscan(in, &from, &to)
-
+		if from == to {
+			continue
+		}
 		adj[from] = append(adj[from], to)
+		adj[to] = append(adj[to], from)
 	}
 
 	color := make([]int, n+1)
@@ -35,7 +43,7 @@ func main() {
 		queue = append(queue, i)
 		for len(queue) != 0 {
 			parent := queue[0]
-			queue = queue[1:]
+			queue = slices.Delete(queue, 0, 1)
 
 			for _, v := range adj[parent] {
 				if color[v] == -1 {
@@ -50,11 +58,5 @@ func main() {
 		}
 	}
 
-	fmt.Println("YES")
-
-	for i := 1; i <= n; i++ {
-		if color[i] == 0 {
-			fmt.Print(i, " ")
-		}
-	}
+	fmt.Print("YES")
 }
