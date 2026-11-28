@@ -30,6 +30,7 @@ func main() {
 		var from, to, weight int
 		fmt.Fscan(in, &from, &to, &weight)
 		matrix[from][to] = float64(weight) / 100
+		matrix[to][from] = float64(weight) / 100
 	}
 
 	for k := 1; k <= n; k++ {
@@ -39,13 +40,13 @@ func main() {
 					continue
 				}
 
-				robChange := 1 - (1-matrix[from][k])*(1-matrix[k][to])
-				if robChange < matrix[from][to] {
-					matrix[from][to] = robChange
+				robChance := 1 - (1-matrix[from][k])*(1-matrix[k][to])
+				if robChance < matrix[from][to] {
+					matrix[from][to] = robChance
 				}
 			}
 		}
 	}
 
-	fmt.Printf("%.2f", matrix[s][e])
+	fmt.Print(matrix[s][e])
 }
